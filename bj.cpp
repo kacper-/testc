@@ -3,8 +3,11 @@
 //
 // BlackJack simulation
 //
+//
+
+#include<stdio.h>
 
 int main(int argc, char *argv[]) {
-    std::cout << "OK" << std::endl;
+    printf("ok\n");
     return 0;
 }
