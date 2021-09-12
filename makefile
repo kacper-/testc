@@ -1,14 +1,14 @@
-all: bj bj2
+all: pi bj2
 
-bj: bj.cpp ; g++ -o bj bj.cpp -I.
+pi: pi.cpp ; g++ -o pi pi.cpp -I.
 
 bj2: bj2.cpp ; g++ -o bj2 bj2.cpp -I.
 
-run_bj:
-	./bj
+run_pi:
+	./pi
 
 run_bj2:
 	./bj2
 
 clean:
-	rm -f *.o bj bj2
+	rm -f *.o pi bj2
