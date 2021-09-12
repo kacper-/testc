@@ -1,7 +1,7 @@
 //
 // Created by Kacper Marczewski on 10/09/2021.
 //
-// BlackJack simulation
+// PI estimated with Monte Carlo method
 //
 //
 
