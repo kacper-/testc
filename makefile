@@ -1,14 +1,14 @@
-all: pi bj2
+all: pi roman
 
 pi: pi.cpp ; g++ -o pi pi.cpp -I.
 
-bj2: bj2.cpp ; g++ -o bj2 bj2.cpp -I.
+roman: roman.cpp ; g++ -o roman roman.cpp -I.
 
 run_pi:
 	./pi
 
-run_bj2:
-	./bj2
+run_roman:
+	./roman
 
 clean:
-	rm -f *.o pi bj2
+	rm -f *.o pi roman
