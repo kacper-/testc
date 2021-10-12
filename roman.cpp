@@ -51,29 +51,29 @@ void arabic_to_roman(int v, char *roman) {
     int i;
     int len = (int) strlen(roman);
     int r_len = 0;
-    for (int k = 0; k < len; k = k + 2) {
+    for (int k = 0; k < LEN; k = k + 2) {
         i = num / VAL[k];
         if (i > 3) {
             if (i == 9) {
-                roman[r_len] = VAL[k];
+                roman[r_len] = CODE[k];
                 r_len++;
-                roman[r_len] = VAL[k - 2];
+                roman[r_len] = CODE[k - 2];
                 r_len++;
             } else {
                 if (i == 4) {
-                    roman[r_len] = VAL[k];
+                    roman[r_len] = CODE[k];
                     r_len++;
                 }
-                roman[r_len] = VAL[k - 1];
+                roman[r_len] = CODE[k - 1];
                 r_len++;
                 for (int j = 5; j < i; j++) {
-                    roman[r_len] = VAL[k];
+                    roman[r_len] = CODE[k];
                     r_len++;
                 }
             }
         } else {
             for (int j = 0; j < i; j++) {
-                roman[r_len] = VAL[k];
+                roman[r_len] = CODE[k];
                 r_len++;
             }
         }
