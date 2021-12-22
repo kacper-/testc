@@ -3,4 +3,6 @@ project(testc)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(testc roman.cpp)
+add_executable(roman roman.cpp)
+
+add_executable(pi pi.cpp)
