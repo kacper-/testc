@@ -6,25 +6,26 @@
 //
 
 #include <cstdio>
+#include <iostream>
 #include <cmath>
 
 int main(int argc, char *argv[]) {
-    printf("Primes from 1000100 to 1000200\n");
+    printf("Primes from 1000001000 to 1000002000\n");
 
-    for(int i=1000100;i<1000200;i++)
+    for(long i=1000001000;i<1000002000;i++)
     {
-        bool prime = true;
-        int sqroot = sqrt(i);
-        for(int j=2;i<sqroot;j++)
+        int prime = 1;
+        long sqroot = sqrt(i);
+        for(long j=2;j<sqroot;j++)
         {
             if(i % j == 0)
             {
-                prime = false;
+                prime = 0;
                 break;
             }
         }
         if(prime)
-            printf("%d\n", i);
+            std::cout << i << std::endl;
     }
 
     return 0;
