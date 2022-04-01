@@ -10,9 +10,11 @@
 #include <cmath>
 
 int main(int argc, char *argv[]) {
-    printf("Primes from 1000001000 to 1000002000\n");
+    printf("Primes from 1010000000 to 1020000000\n");
 
-    for(long i=1000001000;i<1000002000;i++)
+    int count = 0;
+
+    for(long i=1010000000;i<1020000000;i++)
     {
         int prime = 1;
         long sqroot = sqrt(i);
@@ -25,8 +27,10 @@ int main(int argc, char *argv[]) {
             }
         }
         if(prime)
-            std::cout << i << std::endl;
+            count++;
     }
+
+    std::cout << count << std::endl;
 
     return 0;
 }
