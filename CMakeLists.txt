@@ -10,3 +10,5 @@ add_executable(pi pi.cpp)
 add_executable(multi_thread multi_thread.cpp)
 
 add_executable(primes primes.cpp)
+
+add_executable(tasker tasker.cpp)
