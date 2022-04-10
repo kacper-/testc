@@ -14,6 +14,43 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <iostream>
+#include <string>
+#include <vector>
+
+class task
+{
+public:
+    std::string name;
+    int status;
+    task(std::string);
+};
+
+task::task(std::string n)
+{
+    name=n;
+    status=0;
+}
+
+std::string status(int s)
+{
+    switch (s)
+    {
+    case 0:
+        return "pending";
+    case 1:
+        return "in progress";
+    case 2:
+        return "finished";
+    
+    default:
+        return "unknown";
+    }
+}
+
+void print_vec(std::vector<task> tasks) {
+    for(auto task : tasks)
+        printf("%s %s", task.name, status(task.status));
+}
 
 void errno_abort(const char* header)
 {
@@ -26,6 +63,7 @@ int main(int argc, char* argv[])
     struct sockaddr_in recv_addr;
     int trueflag = 1;
     int fd;
+    std::vector<task> tasks;
 
     if(argc != 2) {
         printf("Usage: tasker port\n");
@@ -52,8 +90,14 @@ int main(int argc, char* argv[])
     while ( 1 ) {
         char rbuf[256] = {};
         if (recv(fd, rbuf, sizeof(rbuf)-1, 0) < 0)
+        {
             errno_abort("recv");
-        printf("recv: %s\n", rbuf);
+        }
+        else
+        {
+            tasks.push_back(task(rbuf));
+            print_vec(tasks);
+        }
     }
     close(fd);
     return 0;
