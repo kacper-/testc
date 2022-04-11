@@ -59,6 +59,31 @@ void errno_abort(const char* header)
     exit(EXIT_FAILURE);
 }
 
+void verify_params(int argc, char* argv[]) {
+    if(argc != 2) {
+        printf("Usage: tasker port\n");
+        printf("submitted parameters [%d]:\n", argc);
+        for(int i=0;i<argc;i++)
+            printf("\t%s\n", argv[i]);
+        exit(0);
+    }
+}
+
+void run(std::vector<task> tasks, int fd) {
+    while ( 1 ) {
+        char rbuf[256] = {};
+        if (recv(fd, rbuf, sizeof(rbuf)-1, 0) < 0)
+        {
+            errno_abort("recv");
+        }
+        else
+        {
+            tasks.push_back(task(rbuf));
+            print_vec(tasks);
+        }
+    }
+}
+
 int main(int argc, char* argv[])
 {
     struct sockaddr_in recv_addr;
@@ -66,13 +91,7 @@ int main(int argc, char* argv[])
     int fd;
     std::vector<task> tasks;
 
-    if(argc != 2) {
-        printf("Usage: tasker port\n");
-        printf("submitted parameters [%d]:\n", argc);
-        for(int i=0;i<argc;i++)
-            printf("\t%s\n", argv[i]);
-        return 0;
-    }
+    verify_params(argc, argv);
 
     if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
         errno_abort("socket");
@@ -88,18 +107,8 @@ int main(int argc, char* argv[])
     if (bind(fd, (struct sockaddr*) &recv_addr, sizeof recv_addr) < 0)
         errno_abort("bind");
 
-    while ( 1 ) {
-        char rbuf[256] = {};
-        if (recv(fd, rbuf, sizeof(rbuf)-1, 0) < 0)
-        {
-            errno_abort("recv");
-        }
-        else
-        {
-            tasks.push_back(task(rbuf));
-            print_vec(tasks);
-        }
-    }
+    run(tasks, fd);
+
     close(fd);
     return 0;
 }
