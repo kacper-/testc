@@ -48,8 +48,9 @@ std::string status(int s)
 }
 
 void print_vec(std::vector<task> tasks) {
+    printf("tasks:\n");
     for(auto task : tasks)
-        printf("%s %s", task.name, status(task.status));
+        printf("%s %s\n", task.name.c_str(), status(task.status).c_str());
 }
 
 void errno_abort(const char* header)
