@@ -45,10 +45,14 @@ int main(int argc, char* argv[])
     send_addr.sin_port = (in_port_t) htons(atoi(argv[2]));
     inet_aton(argv[1], &send_addr.sin_addr);
 
-    if (sendto(fd, argv[3], strlen(argv[3]), 0, (struct sockaddr*) &send_addr, sizeof send_addr) < 0)
+    char msg[strlen(argv[3])+3];
+    strcpy(msg, "0");
+    strcat(msg, argv[3]);
+
+    if (sendto(fd, msg, strlen(msg), 0, (struct sockaddr*) &send_addr, sizeof send_addr) < 0)
         errno_abort("sendto");
 
-    printf("sent: %s\n", argv[3]);    
+    printf("sent: %s\n", msg);    
 
     return 0;
 }
