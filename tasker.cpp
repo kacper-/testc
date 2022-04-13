@@ -17,16 +17,22 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <random>
 
 int port;
 char ip[20];
 std::mutex mtx;
+std::random_device rd;
+std::mt19937 mt(rd());
+std::uniform_real_distribution<double> r(0, 1.0);
 
 class task
 {
 public:
     std::string name;
     int status;
+    int local_bid;
+    int remote_bid;
     task(std::string);
 };
 
@@ -34,6 +40,8 @@ task::task(std::string n)
 {
     name=n;
     status=0;
+    local_bid=0;
+    remote_bid=0;
 }
 
 std::vector<task> tasks;
@@ -43,17 +51,26 @@ std::string status(int s)
     switch (s)
     {
     case 0:
-        return "pending";
+        return "pending"; // newly received task
     case 1:
-        return "locked";
+        return "bid";   // under bid
     case 2:
-        return "in progress";
+        return "in progress"; // if another instance is processing it
     case 3:
-        return "finished";
+        return "running";  // if this instance is processing it    
+    case 4:
+        return "finished"; // finished
     
     default:
         return "unknown";
     }
+}
+
+std::string get_random()
+{
+    char bid[12];
+    sprintf(bid, "%0.8f", r(mt));
+    return std::string(bid).substr(2,8);
 }
 
 void print_vec() {
@@ -96,7 +113,11 @@ void send_udp(char* name)
 
 void start_task(task t)
 {
-    // TODO send message about starting new task, wait a while and if there is no objections start the task
+    // set task to 'bid'
+    // calculate and send bid
+    // wait for 2 seconds
+    // if bid is won start the task and set status to 'running'
+    // if bid is lost set status to 'in progress'
 }
 
 void process_task(task t)
@@ -108,7 +129,9 @@ void process_task(task t)
             for(auto tt : tasks)
             {
                 if(t.name == tt.name)
-                    t.status = tt.status;
+                    if(t.status==1)
+                        tt.local_bid=t.local_bid;
+                    tt.status = t.status;
             }
         } else {
             tasks.push_back(t);
@@ -140,6 +163,11 @@ void run(int fd) {
             int status=rbuf[0]-48;
             std::string s(rbuf);
             task t(s.substr(1,s.length()-1));
+            if(status == 1) 
+            {
+                t.name=s.substr(9,s.length()-9);            
+                t.remote_bid=atoi(s.substr(1,8).c_str());
+            }
             t.status=status;
             process_task(t);
         }
