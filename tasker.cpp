@@ -76,7 +76,7 @@ std::string get_random()
 void print_vec() {
     printf("tasks:\n");
     for(auto task : tasks)
-        printf("\t%s %s\n", task.name.c_str(), status(task.status).c_str());
+        printf("\t%s \t%s \t%d \t%d\n", task.name.c_str(), status(task.status).c_str(), task.local_bid, task.remote_bid);
 }
 
 void errno_abort(const char* header)
