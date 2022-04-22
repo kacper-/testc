@@ -18,13 +18,14 @@
 #include <vector>
 #include <mutex>
 #include <random>
+#include<thread>
 
 int port;
 char ip[20];
 std::mutex mtx;
 std::random_device rd;
 std::mt19937 mt(rd());
-std::uniform_real_distribution<double> r(0, 1.0);
+std::uniform_int_distribution<int> bid_int(0, 50000);
 
 class task
 {
@@ -66,13 +67,6 @@ std::string status(int s)
     }
 }
 
-std::string get_random()
-{
-    char bid[12];
-    sprintf(bid, "%0.8f", r(mt));
-    return std::string(bid).substr(2,8);
-}
-
 void print_vec() {
     printf("tasks:\n");
     for(auto task : tasks)
@@ -111,10 +105,16 @@ void send_udp(char* name)
     close(fd);
 }
 
-void start_task(task t)
+void start_task(task *t)
 {
     // set task to 'bid'
-    // calculate and send bid
+    {
+        std::lock_guard<std::mutex> lck(mtx);
+        t->status = 1;
+        // calculate bid
+        t->local_bid = bid_int(mt);
+    }
+    // send bid
     // wait for 2 seconds
     // if bid is won start the task and set status to 'running'
     // if bid is lost set status to 'in progress'
@@ -130,12 +130,12 @@ void process_task(task t)
             {
                 if(t.name == tt.name)
                     if(t.status==1)
-                        tt.local_bid=t.local_bid;
+                        tt.remote_bid=t.remote_bid;
                     tt.status = t.status;
             }
         } else {
             tasks.push_back(t);
-            start_task(t);
+            std::thread(start_task, &t);
         }
     }
     print_vec();
