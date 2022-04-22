@@ -107,16 +107,14 @@ void send_udp(char* name)
 
 void start_task(task *t)
 {
-    // set task to 'bid'
     {
         std::lock_guard<std::mutex> lck(mtx);
         t->status = 1;
-        // calculate bid
         t->local_bid = bid_int(mt);
     }
     // send bid
     // wait for 2 seconds
-    // if bid is won start the task and set status to 'running'
+    // if bid is won then start the task and set status to 'running', currently running task means just waitnig for 10 seconds and then setting status 'finished'
     // if bid is lost set status to 'in progress'
 }
 
