@@ -17,3 +17,5 @@ add_executable(tasker tasker.cpp)
 add_executable(sender sender.cpp)
 
 add_executable(syntax syntax.cpp)
+
+add_executable(montecarlo montecarlo.cpp)
