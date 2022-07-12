@@ -14,17 +14,16 @@ std::random_device rd;
 std::mt19937 mt(rd());
 std::uniform_real_distribution<float> get_float(0, 1);
 
-int main(int argc, char *argv[]) {
-    int inside = 0;
-    int count = 100000;
-    float x,y;
-    for(int i=0;i<count;i++) {
-        x = get_float(mt);
-        y = get_float(mt);
-        if((x*x + y*y) < 1.0)
-            inside++;
-    }
-    float pi = 4.0 * (((float) inside )/ ((float) count));
+const int ITER = 10000000;
 
-    printf("pi = %f\n", pi);
+int main(int argc, char *argv[]) {
+    int t[5];
+    for(int i=0;i<5;i++)
+        t[i]=0;
+    for(int i=0;i<ITER;i++)
+        t[(int)(5 * get_float(mt))]++;
+    for(int i=0;i<5;i++) {
+        int diff = abs((ITER/5) - t[i]);
+        printf("%d = %d diff = %f\n", i + 1, t[i], ((float)diff) / ((float) ITER/5));
+    }
 }
