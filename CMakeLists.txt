@@ -21,3 +21,5 @@ add_executable(syntax syntax.cpp)
 add_executable(montecarlo montecarlo.cpp)
 
 add_executable(dist dist.cpp)
+
+add_executable(opt opt.cpp)
