@@ -20,7 +20,9 @@ std::string exec(const char* cmd) {
 
 int main() {
     std::cout << "Content:type: text/html" << std::endl << std::endl;
-    std::cout << "<html><body><h1>Hello</h1>" << std::endl;
+    std::cout << "<html><body>" << std::endl;
+    std::cout << "<h1>Hello</h1>" << std::endl;
+    std::cout << exec("free") << std::endl;
     std::cout << "</body></html>" << std::endl;
     return 0;
 }
