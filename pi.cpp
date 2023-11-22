@@ -27,7 +27,8 @@ int main(int argc, char *argv[]) {
         avg_pi += pi;
         avg_error += error;
     }
-    printf("avg pi %.6f +/- %.6f\n", avg_pi / REP, error / REP);
+    error = abs((avg_pi / REP) - M_PI);
+    printf("avg pi %.6f +/- %.6f\n", avg_pi / REP, error);
     return 0;
 }
 
