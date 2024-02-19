@@ -2,6 +2,11 @@
 
 int main(int argc, char *argv[]) {
 
+int x;
+int y{};
+
+printf("x=%d y=%d", x, y);
+
 int a=9;
 int b=4;
 int c=7;
