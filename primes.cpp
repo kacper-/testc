@@ -9,28 +9,40 @@
 #include <iostream>
 #include <cmath>
 
+uint64_t timeSinceEpochMillisec() {
+  using namespace std::chrono;
+  return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+}
+
 int main(int argc, char *argv[]) {
-    printf("Primes from 1010000000 to 1020000000\n");
+    const int FROM = 1000000000;
+    const int TO = 1000100000;
+    int limit = sqrt(TO);
+    int a[TO-FROM]; 
 
-    int count = 0;
+    uint64_t start = timeSinceEpochMillisec();
 
-    for(long i=1010000000;i<1020000000;i++)
-    {
-        int prime = 1;
-        long sqroot = sqrt(i);
-        for(long j=2;j<sqroot;j++)
-        {
-            if(i % j == 0)
-            {
-                prime = 0;
+    int n,i;
+
+    for(n=FROM;n<TO;n++) {
+        for(i=2;i<limit;i++) {
+            if( n % i == 0) {
+                a[n - FROM] = 1;
                 break;
             }
         }
-        if(prime)
-            count++;
     }
 
-    std::cout << count << std::endl;
+    uint64_t elapsed = timeSinceEpochMillisec() - start;
+
+    
+
+    for(i=0;i<TO-FROM;i++) {
+        if(a[i] != 0)
+            std::cout << a[i] << "\n";
+    }
+
+    std::cout << elapsed << std::endl;
 
     return 0;
 }
