@@ -27,3 +27,5 @@ add_executable(opt opt.cpp)
 add_executable(hw hw.cpp)
 
 add_executable(ref ref.cpp)
+
+add_executable(static static.cpp)
