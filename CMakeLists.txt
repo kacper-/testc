@@ -29,3 +29,5 @@ add_executable(hw hw.cpp)
 add_executable(ref ref.cpp)
 
 add_executable(static static.cpp)
+
+add_executable(multiplication multiplication.cpp)
