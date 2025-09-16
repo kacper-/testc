@@ -31,3 +31,5 @@ add_executable(ref ref.cpp)
 add_executable(static static.cpp)
 
 add_executable(multiplication multiplication.cpp)
+
+add_executable(linkedlist linkedlist.cpp)
